@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Needed only to query which emulators are installed so we can launch ROMs (iiSU-style handoff) -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name=".RomExplorerApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.RomExplorer"
+        android:usesCleartextTraffic="false">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:theme="@style/Theme.RomExplorer">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Declare emulator packages we know how to hand off to, so QUERY_ALL_PACKAGES
+             could be replaced by <queries> for a smaller attack surface if you only care
+             about a fixed emulator set. See EmulatorLauncher.kt for the mapping. -->
+        <queries>
+            <package android:name="com.retroarch" />
+            <package android:name="com.retroarch.aarch64" />
+            <package android:name="org.ppsspp.ppsspp" />
+            <package android:name="org.citra.citra_emu" />
+            <package android:name="org.dolphinemu.dolphinemu" />
+            <package android:name="com.aliucord.melonds" />
+            <package android:name="com.explusalpha.Fpse64Free" />
+            <package android:name="com.epicgames.mobile" />
+            <package android:name="com.mupen64plusae.v3.fzurita" />
+            <package android:name="com.gc.pcsx2" />
+            <package android:name="io.recompiled.redream" />
+            <package android:name="com.draco.duckstation" />
+        </queries>
+
+    </application>
+</manifest>
