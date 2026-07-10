@@ -36,14 +36,18 @@ class MainActivity : ComponentActivity() {
     }
 
     private val pickFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri: Uri? ->
-        if (uri != null) {
+    if (uri != null) {
+        try {
             contentResolver.takePersistableUriPermission(
                 uri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
-            viewModel.rescan(uri)
+        } catch (e: SecurityException) {
+            android.util.Log.e("MainActivity", "Could not persist URI permission", e)
         }
+        viewModel.rescan(uri)
     }
+}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
