@@ -51,12 +51,16 @@ class LibraryViewModel(private val app: RomExplorerApp) : ViewModel() {
     fun setSort(sort: String) = filters.update { it.copy(sort = sort) }
 
     fun rescan(folderUri: Uri) {
-        viewModelScope.launch {
-            filters.update { it.copy(isScanning = true) }
+    viewModelScope.launch {
+        filters.update { it.copy(isScanning = true) }
+        try {
             repo.rescan(scanner, folderUri)
-            filters.update { it.copy(isScanning = false) }
+        } catch (e: Exception) {
+            android.util.Log.e("LibraryViewModel", "Rescan failed", e)
         }
+        filters.update { it.copy(isScanning = false) }
     }
+}
 
     /** Fetches RetroExplore + RetroAchievements metadata for whatever is currently visible. */
     fun enrichVisible() {
